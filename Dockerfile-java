@@ -3,18 +3,20 @@ FROM dockermaker/alpine-glibc
 MAINTAINER Hari Mukkapati <hari@mukkapati.com>
 
 ARG JAVA_VERSION=8
-ARG JAVA_UPDATE=92
-ARG JAVA_BUILD=14
+ARG JAVA_UPDATE=151
+ARG JAVA_BUILD=12
+ARG JAVA-GUID="e758a0de34e24606bca991d704f6dcbf"
 
 ENV JAVA_VERSION=$JAVA_VERSION \
     JAVA_UPDATE=$JAVA_UPDATE \
     JAVA_BUILD=$JAVA_BUILD \
+    JAVA_GUID=$JAVA_GUID \
     JAVA_HOME="/usr/lib/jvm/default-jvm"
 
 RUN apk add --no-cache --virtual=build-dependencies wget ca-certificates && \
     cd "/tmp" && \
-    wget --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
-        "http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION}u${JAVA_UPDATE}-b${JAVA_BUILD}/jdk-${JAVA_VERSION}u${JAVA_UPDATE}-linux-x64.tar.gz" && \
+    wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
+    -O  "jdk-${JAVA_VERSION}u${JAVA_UPDATE}-linux-x64.tar.gz"   "http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION}u${JAVA_UPDATE}-b${JAVA_BUILD}/e758a0de34e24606bca991d704f6dcbf/jdk-${JAVA_VERSION}u${JAVA_UPDATE}-linux-x64.tar.gz" && \
     tar -xzf "jdk-${JAVA_VERSION}u${JAVA_UPDATE}-linux-x64.tar.gz" && \
     mkdir -p "/usr/lib/jvm" && \
     mv "/tmp/jdk1.${JAVA_VERSION}.0_${JAVA_UPDATE}" "/usr/lib/jvm/java-${JAVA_VERSION}-oracle" && \
